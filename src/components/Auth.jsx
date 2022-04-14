@@ -11,7 +11,7 @@ const initialState = {
     username: "",
     password: "",
     confirmPassword: "",
-    phoneNumber: "",
+    email: "",
     avatarURL: "",
 }
 
@@ -26,21 +26,21 @@ const Auth = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const { username, password, phoneNumber, avatarURL } = form;
+        const { username, password, email, avatarURL } = form;
 
         const URL = "https://stevenc-chat.herokuapp.com/auth";
 
         const { data: {token, userId, hashedPassword, fullName} } = await axios.post(`${URL}/${isSignup ? "signup" : "login"}`, {
-            username, password, fullName: form.fullName, phoneNumber, avatarURL,
+            username, password, fullName: form.fullName, email, avatarURL,
         });
 
         cookies.set("token", token);
-        cookies.set("username", username);
         cookies.set("fullName", fullName);
         cookies.set("userId", userId);
+        cookies.set("email", email);
 
         if (isSignup) {
-            cookies.set("phoneNumber", phoneNumber);
+            cookies.set("username", username);
             cookies.set("avatarURL", avatarURL);
             cookies.set("hashedPassword", hashedPassword);
         }
@@ -72,6 +72,17 @@ const Auth = () => {
                             </div>
                         )}
                         <div className="auth__form-container_fields-content_input">
+                            <label htmlFor="email">Email</label>
+                            <input 
+                                name="email"
+                                type="email"
+                                placeholder="Email"
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        {isSignup && (
+                            <div className="auth__form-container_fields-content_input">
                             <label htmlFor="username">Username</label>
                             <input 
                                 name="username"
@@ -79,17 +90,6 @@ const Auth = () => {
                                 placeholder="Username"
                                 onChange={handleChange}
                                 required
-                            />
-                        </div>
-                        {isSignup && (
-                            <div className="auth__form-container_fields-content_input">
-                                <label htmlFor="phoneNumber">Phone Number</label>
-                                <input 
-                                    name="phoneNumber"
-                                    type="text"
-                                    placeholder="Phone Number"
-                                    onChange={handleChange}
-                                    required
                                 />
                             </div>
                         )}
