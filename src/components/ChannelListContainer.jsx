@@ -4,8 +4,9 @@ import Cookies from 'universal-cookie';
 
 import { ChannelSearch, TeamChannelList, TeamChannelPreview } from './';
 
-import HospitalIcon from "../assets/hospital.png";
-import LogoutIcon from "../assets/logout.png";
+import { RiTeamFill } from "react-icons/ri";
+import { MdOutlineLogout } from "react-icons/md";
+import { AiOutlineLogin } from "react-icons/ai";
 
 const cookies = new Cookies();
 
@@ -13,12 +14,12 @@ const SideBar = ({ logout }) => (
     <div className="channel-list__sidebar">
         <div className="channel-list__sidebar__icon1">
             <div className="icon1__inner">
-                <img src={HospitalIcon} alt="Hospital" width="30" />
+                <RiTeamFill />
             </div>
         </div>
         <div className="channel-list__sidebar__icon2">
             <div className="icon1__inner" onClick={logout}>
-                <img src={LogoutIcon} alt="Logout" width="30" />
+                <MdOutlineLogout />
             </div>
         </div>
     </div> 
@@ -26,7 +27,7 @@ const SideBar = ({ logout }) => (
 
 const CompanyHeader = () => (
     <div className="channel-list__header">
-        <p className="channel-list__header__text">Medical Pager</p>
+        <p className="channel-list__header__text">Group Chat</p>
     </div>
 )
 
@@ -128,9 +129,10 @@ const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing }) =>
             </div>
 
             <div className="channel-list__container-responsive"
-                style={{ left: toggleContainer ? "0%" : "-89%", backgroundColor: "#005fff" }}
+                style={{ left: toggleContainer ? "0%" : "-88%", backgroundColor: "#005fff" }}
             >
                 <div className="channel-list__container-toggle" onClick={() => setToggleContainer((prevToggleContainer) => !prevToggleContainer)}>
+                    <AiOutlineLogin />
                 </div>
                 <ChannelListContent 
                     setIsCreating={setIsCreating} 

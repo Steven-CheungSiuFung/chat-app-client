@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Cookies from 'universal-cookie';
 import axios from "axios";
 
-import signInImage from "../assets/signup.jpg";
+import LoadingIcon from './LoadingIcon';
 
 const cookies = new Cookies();
 
@@ -18,6 +18,7 @@ const initialState = {
 const Auth = () => {
     const [form, setForm] = useState(initialState);
     const [isSignup, setIsSignup] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,6 +26,7 @@ const Auth = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
 
         const { username, password, email, avatarURL } = form;
 
@@ -128,7 +130,7 @@ const Auth = () => {
                             </div>
                         )}
                         <div className="auth__form-container_fields-content_button">
-                            <button>{isSignup ? "Sign Up" : "Sign In"}</button>
+                            {isLoading ? <LoadingIcon /> : <button>{isSignup ? "Sign Up" : "Sign In"}</button>}
                         </div>
                     </form>
                     <div className="auth__form-container_fields-account">
@@ -147,9 +149,9 @@ const Auth = () => {
                     </div>
                 </div>
             </div>
-            <div className="auth__form-container_image">
+            {/* <div className="auth__form-container_image">
                 <img src={signInImage} alt="sign in" />
-            </div>
+            </div> */}
         </div>
     )
 }
