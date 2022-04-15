@@ -1,29 +1,9 @@
 import React, { useState } from 'react';
 import { ChannelList, useChatContext } from 'stream-chat-react';
-import Cookies from 'universal-cookie';
 
-import { ChannelSearch, TeamChannelList, TeamChannelPreview } from './';
+import { ChannelSearch, TeamChannelList, TeamChannelPreview, SideBar } from './';
 
-import { RiTeamFill } from "react-icons/ri";
-import { MdOutlineLogout } from "react-icons/md";
 import { AiOutlineLogin } from "react-icons/ai";
-
-const cookies = new Cookies();
-
-const SideBar = ({ logout }) => (
-    <div className="channel-list__sidebar">
-        <div className="channel-list__sidebar__icon1">
-            <div className="icon1__inner">
-                <RiTeamFill />
-            </div>
-        </div>
-        <div className="channel-list__sidebar__icon2">
-            <div className="icon1__inner" onClick={logout}>
-                <MdOutlineLogout />
-            </div>
-        </div>
-    </div> 
-)
 
 const CompanyHeader = () => (
     <div className="channel-list__header">
@@ -39,26 +19,19 @@ const customChannelMessagingFilter = (channels) => {
     return channels.filter((channel) => channel.type === "messaging");
 };
 
-const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEditing, setToggleContainer }) => {
+const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEditing, setToggleContainer, setIsChannelActive }) => {
     const { client } = useChatContext();
-    
-    const logout = () => {
-        cookies.remove("token");
-        cookies.remove("username");
-        cookies.remove("fullName");
-        cookies.remove("userId");
-        cookies.remove("email");
-        cookies.remove("avatarURL");
-        cookies.remove("hashedPassword");
-
-        window.location.reload();
-    }
 
     const filters = { members: { $in: [client.userID] } };
 
   return (
     <>
-        <SideBar logout={logout} />
+        <SideBar 
+            setIsChannelActive={setIsChannelActive} 
+            setIsCreating={setIsCreating}
+            setIsEditing={setIsEditing}
+            setToggleContainer={setToggleContainer}
+        />
         <div className="channel-list__list__wrapper">
             <CompanyHeader />
             <ChannelSearch setToggleContainer={setToggleContainer} />
@@ -83,6 +56,7 @@ const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEdi
                         setIsEditing={setIsEditing}
                         setToggleContainer={setToggleContainer}
                         type="team"
+                        setIsChannelActive={setIsChannelActive}
                     />
                 )}
             />
@@ -107,6 +81,7 @@ const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEdi
                         setIsEditing={setIsEditing}
                         setToggleContainer={setToggleContainer}
                         type="messaging"
+                        setIsChannelActive={setIsChannelActive}
                     />
                 )}
             />
@@ -115,7 +90,7 @@ const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEdi
   );
 }
 
-const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing }) => {
+const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing, setIsChannelActive }) => {
     const [toggleContainer, setToggleContainer] = useState(false);
 
     return (
@@ -125,6 +100,7 @@ const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing }) =>
                     setIsCreating={setIsCreating} 
                     setCreateType={setCreateType}
                     setIsEditing={setIsEditing} 
+                    setIsChannelActive={setIsChannelActive}
                 />
             </div>
 
@@ -139,6 +115,7 @@ const ChannelListContainer = ({ setCreateType, setIsCreating, setIsEditing }) =>
                     setCreateType={setCreateType}
                     setIsEditing={setIsEditing}
                     setToggleContainer={setToggleContainer} 
+                    setIsChannelActive={setIsChannelActive}
                 />
             </div>
         </>

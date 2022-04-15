@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CloseCreateChannel = ({ setIsCreating, setIsEditing }) => (
+export const CloseCreateChannel = ({ setIsCreating, setIsEditing, setIsChannelActive }) => (
   <svg
     width='32'
     height='32'
@@ -10,6 +10,7 @@ export const CloseCreateChannel = ({ setIsCreating, setIsEditing }) => (
     onClick={() => {
       if (setIsCreating) setIsCreating(false);
       if (setIsEditing) setIsEditing(false);
+      if (setIsChannelActive) setIsChannelActive(true);
     }}
   >
     <path
